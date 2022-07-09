@@ -1,14 +1,18 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import { prisma } from "../db/client";
 
-const Home: NextPage = () => {
+const Home: NextPage = ({ questions }) => {
+  console.log("questions", questions);
   return (
-    <div className="w-[500px] bg-black">
-      <h1 className="text-white">Heading</h1>
+    <div className="">
+      <code>{questions}</code>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
+
+export const getServerSideProps = async () => {
+  const questions = await prisma.pollQuestion.findMany();
+  return { props: { questions: JSON.stringify(questions) } };
+};
