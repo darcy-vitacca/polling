@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { prisma } from "../db/client";
 
+// @ts-ignore
 const Home: NextPage = ({ questions }) => {
   console.log("questions", questions);
   return (
