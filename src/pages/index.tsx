@@ -1,19 +1,18 @@
 import type { NextPage } from "next";
-import { prisma } from "../db/client";
+import { trpc } from "../utils/trpc";
 
 // @ts-ignore
-const Home: NextPage = ({ questions }) => {
-  console.log("questions", questions);
+const Home: NextPage = () => {
+  const { data, isLoading } = trpc.useQuery(["questions.get-all"]);
+  if (isLoading || !data) {
+    return <div>Loading...</div>;
+  }
+  console.log("data", data);
   return (
     <div className="">
-      <code>{questions}</code>
+      <code>{data[0]?.question}</code>
     </div>
   );
 };
 
 export default Home;
-
-export const getServerSideProps = async () => {
-  const questions = await prisma.pollQuestion.findMany();
-  return { props: { questions: JSON.stringify(questions) } };
-};
