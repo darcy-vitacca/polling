@@ -5,6 +5,7 @@ import * as trpcNext from "@trpc/server/adapters/next";
 export async function createContext(opts?: trpcNext.CreateNextContextOptions) {
   return {
     token: opts?.req.cookies["poll-token"],
+    req: opts?.req
   };
 }
 type Context = trpc.inferAsyncReturnType<typeof createContext>;
