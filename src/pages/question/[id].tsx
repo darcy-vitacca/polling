@@ -15,9 +15,13 @@ const QuestionsPageContent: FC<{ id: string }> = ({ id }) => {
       )}
       <p>{data?.question?.question}</p>
       <div>
-        {(data?.question?.options as string[])?.map((option) => {
-          return <p key={option}>{option}</p>;
-        })}
+        {(data?.question?.options as string[])?.map((option, index) => {
+            return (
+              <div key={index}>
+                  <p className="font-bold">{(option as any).text}</p>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

@@ -4,9 +4,13 @@ import { z } from "zod";
 import { createRouter } from "./context";
 
 export const questionRouter = createRouter()
-  .query("get-all", {
-    async resolve() {
-      return await prisma.pollQuestion.findMany();
+  .query("get-all-my-questions", {
+    async resolve({ctx}) {
+      return await prisma.pollQuestion.findMany({where: {
+        ownerToken : {
+          equals: ctx.token
+        }
+        }});
     },
   })
   .query("get-by-id", {
@@ -22,7 +26,7 @@ export const questionRouter = createRouter()
       return { question, isOwner: question?.ownerToken === ctx.token };
     },
   })
-  .mutation("create-question", {
+  .mutation("create", {
     //because of this input validator, the front end can't create a question without a string being passed in, it will error
     input: z.object({
       question: z.string().min(5).max(500),

@@ -6,10 +6,10 @@ import Link from "next/link";
 const QuestionCreator: FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const client = trpc.useContext();
-  const { mutate, isLoading } = trpc.useMutation("questions.create-question", {
+  const { mutate, isLoading } = trpc.useMutation("questions.create", {
     onSuccess: () => {
       //on success get all is refetched
-      client.invalidateQueries(["questions.get-all"]);
+      client.invalidateQueries(["questions.get-all-my-questions"]);
       if (!inputRef.current) return;
       inputRef.current.value = "";
     },
@@ -34,7 +34,7 @@ const QuestionCreator: FC = () => {
 
 // @ts-ignore
 const Home: NextPage = () => {
-  const { data, isLoading } = trpc.useQuery(["questions.get-all"]);
+  const { data, isLoading } = trpc.useQuery(["questions.get-all-my-questions"]);
   if (isLoading || !data) {
     return <div>Loading...</div>;
   }
