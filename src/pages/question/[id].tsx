@@ -10,9 +10,12 @@ const QuestionsPageContent: FC<{ id: string }> = ({ id }) => {
   if (!isLoading && !data) return <div>Question not found</div>;
   return (
     <div>
-      <p>{data?.question}</p>
+      {data?.isOwner && (
+        <div className="bg-red-700 text-white rounded-md">You made this</div>
+      )}
+      <p>{data?.question?.question}</p>
       <div>
-        {(data?.options as string[])?.map((option) => {
+        {(data?.question?.options as string[])?.map((option) => {
           return <p key={option}>{option}</p>;
         })}
       </div>
