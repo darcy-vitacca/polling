@@ -14,4 +14,15 @@ model PollQuestion {
    question String @db.VarChar(5000)
    createdAt DateTime @default(now())
    updatedAt DateTime @default(now())
+   options Json
+   Vote Vote[]
+}
+
+model Vote {
+   id String @id @default(cuid())
+   choice Int
+   question PollQuestion @relation(fields: [questionId], references: [id])
+   questionId String
+   createdAt DateTime @default(now())
+   updatedAt DateTime @default(now())
 }

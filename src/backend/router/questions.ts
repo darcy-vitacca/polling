@@ -9,6 +9,18 @@ export const questionRouter = trpc
       return await prisma.pollQuestion.findMany();
     },
   })
+  .query("get-by-id", {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input }) {
+      return await prisma.pollQuestion.findFirst({
+        where: {
+          id: input.id,
+        },
+      });
+    },
+  })
   .mutation("create-question", {
     //because of this input validator, the front end can't create a question without a string being passed in, it will error
     input: z.object({
@@ -18,6 +30,7 @@ export const questionRouter = trpc
       return await prisma.pollQuestion.create({
         data: {
           question: input.question,
+          options: [],
         },
       });
     },
