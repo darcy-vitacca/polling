@@ -27,44 +27,39 @@ const CreateQuestionForm: FC = () => {
 
   const { mutate, isLoading, data } = trpc.useMutation("questions.create", {
     onSuccess: (data) => {
-      console.log(data);
       reset();
       router.push(`/question/${data?.id}`);
     },
   });
 
   const onSubmit: SubmitHandler<CreateQuestionInputType> = (data) => {
-    console.log(data);
     mutate(data);
   };
-  console.log("errors", errors);
-
-  console.log(watch("question")); // w
 
   if (isLoading || data) return <div>Loading...</div>;
 
   return (
-    <div className="antialiasing text-gray-100 p-6 min-h-screen">
-      <header className="header flex w-full justify-between">
+    <div className="min-h-screen p-6 text-gray-100 antialiasing">
+      <header className="flex justify-between w-full header">
         <Link href={"/"}>
           <h1 className="text-4xl font-bold cursor-pointer">OnAVote</h1>
         </Link>
       </header>
-      <div className="max-w-xl mx-auto py-12 md:max-w-2xl">
+      <div className="max-w-xl py-12 mx-auto md:max-w-2xl">
         <h2 className="text-2xl font-bold">Create a new poll</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div className="mt-8 w-full">
-            <div className="form-control my-10 w-full">
+          <div className="w-full mt-8">
+            <div className="w-full my-10 form-control">
               <label className="label">
-                <span className="label-text font-semibold text-base">
+                <span className="text-base font-semibold label-text">
                   Your Question
                 </span>
               </label>
               <input
                 {...register("question")}
                 type="text"
-                className="input input-bordered  w-full block text-gray-800 rounded-md"
+                className="block w-full text-gray-800 rounded-md input input-bordered"
                 placeholder="How do magnets work?"
               />
               {errors.question && (
@@ -93,7 +88,7 @@ const CreateQuestionForm: FC = () => {
   );
 };
 
-const QuestionCreator: FC = () => {
+const QuestionCreator: FC = (props) => {
   return (
     <div>
       <CreateQuestionForm />

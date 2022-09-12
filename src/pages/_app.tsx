@@ -22,6 +22,9 @@ export default withTRPC<AppRouter>({
   config({ ctx }) {
     const url = `${getBaseUrl()}/api/trpc`;
     return {
+      //When we move to ssr the thing that makes the request to the server is no longer the user
+      //it's the server so if we don't carry the cookies over it drops the cookie
+      //
       headers() {
         return {
           cookie: ctx?.req?.headers.cookie,

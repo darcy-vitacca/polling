@@ -7,8 +7,6 @@ const QuestionsPageContent: FC<{ id: string }> = ({ id }) => {
     "questions.get-by-id",
     { id },
   ]);
-  console.log("data", data);
-
   if (!isLoading && !data) return <div>Question not found</div>;
   return (
     <div>
