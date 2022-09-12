@@ -7,33 +7,35 @@ const QuestionsPageContent: FC<{ id: string }> = ({ id }) => {
     "questions.get-by-id",
     { id },
   ]);
+  console.log("data", data);
+
   if (!isLoading && !data) return <div>Question not found</div>;
   return (
     <div>
       {data?.isOwner && (
-        <div className="bg-red-700 text-white rounded-md">You made this</div>
+        <div className="text-white bg-red-700 rounded-md">You made this</div>
       )}
       <p>{data?.question?.question}</p>
       <div>
         {(data?.question?.options as string[])?.map((option, index) => {
-            return (
-              <div key={index}>
-                  <p className="font-bold">{(option as any).text}</p>
-              </div>
-            );
-          })}
+          return (
+            <div key={index}>
+              <p className="font-bold">{(option as any).text}</p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
 
-const QuestionPage = () => {
+const QuestionPage = (props) => {
   const { query } = useRouter();
   const { id } = query;
   if (!id || typeof id != "string") return <div>No id</div>;
 
   return (
-    <div className="p-6 flex flex-col">
+    <div className="flex flex-col p-6">
       Question Page : {id}
       <QuestionsPageContent id={id} />
     </div>
