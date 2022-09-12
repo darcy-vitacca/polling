@@ -22,10 +22,10 @@ export default withTRPC<AppRouter>({
   config({ ctx }) {
     const url = `${getBaseUrl()}/api/trpc`;
     return {
-      headers () {
+      headers() {
         return {
           cookie: ctx?.req?.headers.cookie,
-        }
+        };
       },
       url,
       transformer: superjson,

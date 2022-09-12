@@ -5,12 +5,14 @@ import { createRouter } from "./context";
 
 export const questionRouter = createRouter()
   .query("get-all-my-questions", {
-    async resolve({ctx}) {
-      return await prisma.pollQuestion.findMany({where: {
-        ownerToken : {
-          equals: ctx.token
-        }
-        }});
+    async resolve({ ctx }) {
+      return await prisma.pollQuestion.findMany({
+        where: {
+          ownerToken: {
+            equals: ctx.token,
+          },
+        },
+      });
     },
   })
   .query("get-by-id", {
@@ -32,8 +34,7 @@ export const questionRouter = createRouter()
       question: z.string().min(5).max(500),
     }),
     async resolve({ input, ctx }) {
-      if (!ctx.token)
-        return { error: "You must be logged in to create a question" };
+      if (!ctx.token) throw new Error("Unauthorized");
       return await prisma.pollQuestion.create({
         data: {
           question: input.question,
