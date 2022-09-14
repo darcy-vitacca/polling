@@ -32,6 +32,7 @@ const CreateQuestionForm: FC = (props) => {
 
   const { mutate, isLoading, data } = trpc.useMutation("questions.create", {
     onSuccess: (data) => {
+      debugger;
       reset();
       router.push(`/question/${data?.id}`);
     },
@@ -50,7 +51,9 @@ const CreateQuestionForm: FC = (props) => {
     <div className="min-h-screen p-6 text-gray-100 antialiasing">
       <header className="flex justify-between w-full header">
         <Link href={"/"}>
-          <h1 className="text-4xl font-bold cursor-pointer">Create a new poll</h1>
+          <h1 className="text-4xl font-bold cursor-pointer">
+            Create a new poll
+          </h1>
         </Link>
       </header>
       <div className="max-w-xl py-12 mx-auto md:max-w-2xl">
