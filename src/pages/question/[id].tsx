@@ -9,10 +9,14 @@ const QuestionsPageContent: FC<{ id: string }> = ({ id }) => {
   ]);
 
   const { mutate, data: voteResponse } = trpc.useMutation(
-    "questions.vote-on-question"
+    "questions.vote-on-question",
+    { onSuccess: () => window.location.reload() }
   );
 
   if (!data || !data?.question) return <div>Question not found</div>;
+
+  console.log("data", data);
+
   return (
     <div>
       {data?.isOwner && (
@@ -23,8 +27,11 @@ const QuestionsPageContent: FC<{ id: string }> = ({ id }) => {
         {(data?.question?.options as string[])?.map((option, index) => {
           if (data?.isOwner || data?.vote) {
             return (
-              <div key={index}>
-                <p className="font-bold">{(option as any).text}</p>
+              <div
+                key={index}
+                className={data?.vote?.choice === index ? "underline" : ""}
+              >
+                {data?.votes?.[index]?._count ?? 0} - {(option as any).text}
               </div>
             );
           }
