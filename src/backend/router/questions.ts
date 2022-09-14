@@ -1,3 +1,4 @@
+import { createQuestionValidator } from './../../shared/create-question-validator';
 import * as trpc from "@trpc/server";
 import { prisma } from "../../db/client";
 import { z } from "zod";
@@ -31,15 +32,16 @@ export const questionRouter = createRouter()
   })
   .mutation("create", {
     //because of this input validator, the front end can't create a question without a string being passed in, it will error
-    input: z.object({
-      question: z.string().min(5).max(500),
-    }),
+    input: createQuestionValidator,
     async resolve({ input, ctx }) {
+      console.log('input', input);
+
+
       if (!ctx.token) throw new Error("Unauthorized");
       return await prisma.pollQuestion.create({
         data: {
           question: input.question,
-          options: [],
+          options: input.options,
           ownerToken: ctx.token,
         },
       });

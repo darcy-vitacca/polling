@@ -27,7 +27,7 @@ const QuestionsPageContent: FC<{ id: string }> = ({ id }) => {
   );
 };
 
-const QuestionPage = (props) => {
+const QuestionPage: FC = () => {
   const { query } = useRouter();
   const { id } = query;
   if (!id || typeof id != "string") return <div>No id</div>;
